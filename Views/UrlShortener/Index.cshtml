@@ -1,0 +1,79 @@
+﻿@model URLLinks
+
+<div class="container col-lg-8 form-group">
+
+    <form id="main-form" asp-action="ConvertURL" asp-controller="UrlShortener" method="POST">
+
+        <p>  
+                <label asp-for="ShortenedUrlPrefix">Enter URL prefix:</label>                       
+                <input asp-for="ShortenedUrlPrefix" type="text" id="prefix-field" class="col-md-11" required />
+
+                <br /><br />
+
+                <label asp-for="OriginalUrl">Enter URL to be shortened:</label>                       
+                <input asp-for="OriginalUrl" type="text" id="url-field" class="col-md-11" required />
+
+                <br /><br />
+
+                <div class="align-self-center mx-auto">
+                    <input type="submit" value="Convert URL to Short Form" />
+                </div>
+
+            @if(ViewBag.Error != null)
+            {
+                <div class="alert alert-info mt-2">@ViewBag.Error</div>                
+            }
+
+            @if(ViewBag.ExistingRecord != null)
+            {
+                var record = (URLLinks)ViewBag.ExistingRecord;
+                var trackVisitClicks = record.TimesVisited.ToString();
+
+                <div class="alert alert-success mt-4">
+
+                    <u>Duplicate record:</u><br/><br/>
+                    Entered URL: @record.OriginalUrl <br/>
+                    Shortened URL: @record.ShortenedUrl <br/><br/>
+                    Times Link Clicked: @trackVisitClicks <br/>
+                    Converted At: @record.ConvertedAt <br/>
+                    Last Visited At: @( (@record.VisitedAt == DateTime.MinValue) ? "N/A" : @record.VisitedAt.ToString() ) <br/>
+                    Last Visitor's IP Address: @record.VisitorsIpAddress<br/>
+                    Last Visitor's User Agent: @record.VisitorsUserAgent <br/><br/>
+
+                   <a id="url-link" asp-controller="UrlShortener" asp-action="VisitURL" asp-route-id="@record.Id" class="btn btn-primary">Visit @record.ShortenedUrl</a>        
+                                   
+                </div>
+            }
+            
+        </p>
+
+    </form>    
+    
+
+
+    @if (ViewBag.Message != null)
+    {
+         <h3>Converted URLs</h3>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                <td>Entered URL</td>               
+                <td>URL</td>
+                </tr>
+            </thead>
+    @foreach (var link in ViewBag.Message)
+    {            
+            <tbody>
+                <tr>
+                <td>@link.OriginalUrl</td>              
+                <td> 
+                    <a asp-controller="UrlShortener" asp-action="VisitURL" asp-route-id="@link.Id" class="btn btn-primary">Visit @link.ShortenedUrl</a> 
+                    </td>
+                </tr>
+            </tbody>             
+    }        
+        </table>
+    }
+   
+</div>

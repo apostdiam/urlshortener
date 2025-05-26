@@ -1,0 +1,32 @@
+﻿@if (ViewBag.Message != null)
+{
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+            <td>Entered URL</td>
+            <td>Shortened URL</td>
+            <td>Times Visited</td>
+            <td>Last Visited At</td>
+            <td>Last Visitor's IP Address</td>
+            <td>Last Visitor's User Agent</td>
+            <td>URL</td>
+            </tr>
+        </thead>
+@foreach (var link in ViewBag.Message)
+{            
+        <tbody>
+            <tr>
+            <td>@link.OriginalUrl</td>
+            <td>@link.ShortenedUrl</td>
+            <td>@link.TimesVisited</td>
+            <td>@((link.VisitedAt == DateTime.MinValue) ? "N/A" : @link.VisitedAt.ToString("dd/MM/yyyy, HH:mm:ss"))</td>
+            <td>@((link.VisitorsIpAddress == null || link.TimesVisited == 0) ? "N/A" : @link.VisitorsIpAddress)</td>
+            <td>@((link.VisitorsUserAgent == null || link.TimesVisited == 0) ? "N/A" : @link.VisitorsUserAgent)</td>
+            <td> 
+                <a asp-controller="UrlShortener" asp-action="VisitURL" asp-route-id="@link.Id" class="btn btn-primary">Visit @link.ShortenedUrl</a> 
+                </td>
+            </tr>
+        </tbody>             
+}        
+    </table>
+}

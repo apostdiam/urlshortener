@@ -1,0 +1,14 @@
+﻿@model URLLinks
+
+@{
+    var data = ViewBag.Message;
+}
+<p>
+    Entered URL:<br/> @data.OriginalUrl
+    <br><br>
+    Shortened URL Form:<br/> @data.ShortenedUrl   
+</p>
+
+<br/>
+      
+ <a id="url-link" asp-controller="UrlShortener" asp-action="VisitURL" asp-route-id="@data.Id" class="btn btn-primary">Visit URL</a>  
