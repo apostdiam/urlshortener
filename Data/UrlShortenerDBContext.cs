@@ -16,7 +16,7 @@ namespace URL_Shortener.Data
          
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-HMI2D7LM\\SQLEXPRESS;Initial Catalog=urlshortenerdb;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=LAPTOP\\SQLEXPRESS;Initial Catalog=urlshortenerdb;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
